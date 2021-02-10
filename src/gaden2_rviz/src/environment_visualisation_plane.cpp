@@ -1,4 +1,4 @@
-#include <gaden2/environment_model_plane.hpp>
+#include <gaden2/environment_models/plane.hpp>
 #include <gaden2_rviz/environment_visualisation_plane.hpp>
 #include <gaden2_rviz/visualisation_base.hpp>
 #include <gaden2_rviz/helpers/ros_type_conversions.hpp>
@@ -8,7 +8,7 @@
 namespace gaden2::rviz {
 
 EnvironmentVisualisationPlane::EnvironmentVisualisationPlane(std::shared_ptr<VisualisationBase> visualisation_base,
-                                                             std::shared_ptr<EnvironmentModelPlane> model,
+                                                             std::shared_ptr<environment::Plane> model,
                                                              int publication_interval,
                                                              const std::string &marker_namespace,
                                                              int marker_id,

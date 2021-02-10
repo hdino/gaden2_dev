@@ -22,7 +22,7 @@ find_package(yaml-cpp REQUIRED)
 find_package(gaden2_eigen REQUIRED)
 
 add_library(gaden2
-  src/environment_model_plane.cpp
+  src/environment_models/plane.cpp
   src/filament_model.cpp
   src/gas_source.cpp
   src/gas_source_filament_model.cpp

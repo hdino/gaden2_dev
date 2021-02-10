@@ -2,7 +2,7 @@ INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD
 
 SOURCES += \
-    $$PWD/src/environment_model_plane.cpp \
+    $$PWD/src/environment_models/plane.cpp \
     $$PWD/src/filament_model.cpp \
     $$PWD/src/gas_source.cpp \
     $$PWD/src/gas_source_filament_model.cpp \
@@ -16,8 +16,9 @@ SOURCES += \
     $$PWD/src/wind_models/lattice_boltzmann_2d.cpp
 
 HEADERS += \
-    $$PWD/include/gaden2/environment_model.hpp \
-    $$PWD/include/gaden2/environment_model_plane.hpp \
+    $$PWD/include/gaden2/environment_models/2d_extrusion.hpp \
+    $$PWD/include/gaden2/environment_models/environment_model_base.hpp \
+    $$PWD/include/gaden2/environment_models/plane.hpp \
     $$PWD/include/gaden2/filament.hpp \
     $$PWD/include/gaden2/filament_model.hpp \
     $$PWD/include/gaden2/gas_dispersion_model.hpp \

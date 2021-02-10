@@ -1,21 +1,19 @@
-#include <gaden2/environment_model_plane.hpp>
+#include <gaden2/environment_models/plane.hpp>
 
 #include <yaml-cpp/yaml.h>
 
 #include <fstream>
 #include <stdexcept>
 
-namespace gaden2 {
+namespace gaden2::environment {
 
 static constexpr double z_min = -1.0;
 
-EnvironmentModelPlane::EnvironmentModelPlane(double x_min,
-                                             double x_max,
-                                             double y_min,
-                                             double y_max,
-                                             double z_max,
-                                             rl::Logger parent_logger)
-    : EnvironmentModel(parent_logger)
+Plane::Plane(double x_min, double x_max,
+             double y_min, double y_max,
+             double z_max,
+             rl::Logger parent_logger)
+    : EnvironmentModelBase(parent_logger)
     , world_min_(x_min, y_min, z_min)
     , world_max_(x_max, y_max, z_max)
     , plane_min_(world_min_)
@@ -24,9 +22,8 @@ EnvironmentModelPlane::EnvironmentModelPlane(double x_min,
     logger.info() << "Created plane environment model.";
 }
 
-EnvironmentModelPlane::EnvironmentModelPlane(const std::string &file,
-                                             rl::Logger parent_logger)
-    : EnvironmentModel(parent_logger)
+Plane::Plane(const std::string &file, rl::Logger parent_logger)
+    : EnvironmentModelBase(parent_logger)
 {
     YAML::Node yaml_node = YAML::LoadFile(file);
 
@@ -79,10 +76,10 @@ EnvironmentModelPlane::EnvironmentModelPlane(const std::string &file,
                   << " PlaneMax = [" << plane_max_(0) << ", " << plane_max_(1) << ", " << plane_max_(2) << "]";
 }
 
-EnvironmentModelPlane::~EnvironmentModelPlane()
+Plane::~Plane()
 {}
 
-void EnvironmentModelPlane::startRecord(const std::string &file)
+void Plane::startRecord(const std::string &file)
 {
     YAML::Node yaml_node;
     yaml_node["Application"] = "GADEN2";
@@ -110,22 +107,22 @@ void EnvironmentModelPlane::startRecord(const std::string &file)
     fstream << yaml_node;
 }
 
-void EnvironmentModelPlane::stopRecord()
+void Plane::stopRecord()
 {
     // do nothing
 }
 
-Eigen::Vector3d EnvironmentModelPlane::getEnvironmentMin() const
+Eigen::Vector3d Plane::getEnvironmentMin() const
 {
     return world_min_;
 }
 
-Eigen::Vector3d EnvironmentModelPlane::getEnvironmentMax() const
+Eigen::Vector3d Plane::getEnvironmentMax() const
 {
     return world_max_;
 }
 
-Occupancy EnvironmentModelPlane::getOccupancy(const Eigen::Vector3d &p) const
+Occupancy Plane::getOccupancy(const Eigen::Vector3d &p) const
 {
     if ((p.array() < world_min_.array()).any() || (p.array() > world_max_.array()).any())
         return Occupancy::OutOfWorld;
@@ -135,14 +132,14 @@ Occupancy EnvironmentModelPlane::getOccupancy(const Eigen::Vector3d &p) const
         return Occupancy::Free;
 }
 
-Eigen::Vector3d EnvironmentModelPlane::getPlaneCenterCoordinates() const
+Eigen::Vector3d Plane::getPlaneCenterCoordinates() const
 {
     return 0.5 * (plane_min_ + plane_max_);
 }
 
-Eigen::Vector3d EnvironmentModelPlane::getPlaneDimensions() const
+Eigen::Vector3d Plane::getPlaneDimensions() const
 {
     return plane_max_ - plane_min_;
 }
 
-} // namespace gaden2
+} // namespace gaden2::environment

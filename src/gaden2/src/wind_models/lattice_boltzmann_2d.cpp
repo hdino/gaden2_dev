@@ -1,9 +1,9 @@
-#include <gaden2/environment_model.hpp>
+#include <gaden2/environment_models/environment_model_base.hpp>
 #include <gaden2/wind_models/lattice_boltzmann_2d.hpp>
 
 namespace gaden2::wind_model {
 
-LatticeBoltzmann2D::LatticeBoltzmann2D(const std::shared_ptr<EnvironmentModel> &environment_model,
+LatticeBoltzmann2D::LatticeBoltzmann2D(const std::shared_ptr<environment::EnvironmentModelBase> &environment_model,
                                        double grid_cell_size,
                                        rl::Logger parent_logger)
     : WindModelBase(parent_logger)

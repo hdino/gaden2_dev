@@ -1,6 +1,6 @@
-#include <gaden2/environment_model.hpp>
 #include <gaden2/filament_model.hpp>
 #include <gaden2/gas_source_filament_model.hpp>
+#include <gaden2/environment_models/environment_model_base.hpp>
 #include <gaden2/wind_models/wind_model_base.hpp>
 #include <gaden2/helpers/ideal_gas.hpp>
 
@@ -9,7 +9,7 @@
 
 namespace gaden2 {
 
-FilamentGasModel::FilamentGasModel(std::shared_ptr<EnvironmentModel> environment_model,
+FilamentGasModel::FilamentGasModel(std::shared_ptr<environment::EnvironmentModelBase> environment_model,
                                    std::shared_ptr<wind_model::WindModelBase> wind_model,
                                    std::vector<std::shared_ptr<GasSourceFilamentModel>> gas_sources,
                                    double filament_noise_std,
@@ -212,12 +212,12 @@ FilamentGasModel::testAndSetPosition(Eigen::Vector3d &position, const Eigen::Vec
 {
     switch (environment_model_->getOccupancy(candidate))
     {
-    case Occupancy::Free:
+    case environment::Occupancy::Free:
         // Free and valid location... update filament position
         position = candidate;
         return UpdatePositionResult::KeepFilament;
-    case Occupancy::Outlet:
-    case Occupancy::OutOfWorld:
+    case environment::Occupancy::Outlet:
+    case environment::Occupancy::OutOfWorld:
         // The location corresponds to an outlet! Delete filament!
         return UpdatePositionResult::RemoveFilament;
     default:

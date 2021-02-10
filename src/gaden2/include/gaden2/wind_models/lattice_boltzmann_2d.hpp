@@ -11,7 +11,9 @@
 
 namespace gaden2 {
 
-class EnvironmentModel;
+namespace environment {
+class EnvironmentModelBase;
+} // namespace environment
 
 namespace wind_model {
 
@@ -20,7 +22,7 @@ class LatticeBoltzmann2D : public WindModelBase
 public:
     static constexpr double DEFAULT_GRID_CELL_SIZE = 1.0; // [m]
 
-    LatticeBoltzmann2D(const std::shared_ptr<EnvironmentModel> &environment_model,
+    LatticeBoltzmann2D(const std::shared_ptr<environment::EnvironmentModelBase> &environment_model,
                        double grid_cell_size = DEFAULT_GRID_CELL_SIZE, // [m]
                        rl::Logger parent_logger = getStandardLogger());
 

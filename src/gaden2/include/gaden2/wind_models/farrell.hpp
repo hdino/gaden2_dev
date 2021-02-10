@@ -12,7 +12,9 @@
 
 namespace gaden2 {
 
-class EnvironmentModel;
+namespace environment {
+class EnvironmentModelBase;
+} // namespace environment
 
 namespace wind_model {
 
@@ -43,7 +45,7 @@ public:
     static constexpr double DEFAULT_NOISE_DAMP = 0.1;       // [] Damping ratio for boundary condition noise generation.
     static constexpr double DEFAULT_NOISE_BANDWIDTH = 0.2;  // [] Bandwidth for boundary condition noise generation.
 
-    Farrell(const std::shared_ptr<EnvironmentModel> &environment_model,
+    Farrell(const std::shared_ptr<environment::EnvironmentModelBase> &environment_model,
             double grid_cell_size = DEFAULT_GRID_CELL_SIZE, // [m] recommended range: [5, 10]
             double u0 = DEFAULT_U0, // [m/s] mean wind velocity in x-direction
             double v0 = DEFAULT_V0, // [m/s] mean wind velocity in y-direction

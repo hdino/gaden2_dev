@@ -2,8 +2,6 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 
-#include <gaden2/environment_model.hpp>
-#include <gaden2/environment_model_plane.hpp>
 #include <gaden2/filament_model.hpp>
 #include <gaden2/gas_dispersion_model.hpp>
 #include <gaden2/gas_source.hpp>
@@ -11,6 +9,9 @@
 #include <gaden2/gases.hpp>
 #include <gaden2/simulation_element.hpp>
 #include <gaden2/simulator.hpp>
+
+#include <gaden2/environment_models/environment_model_base.hpp>
+#include <gaden2/environment_models/plane.hpp>
 #include <gaden2/wind_models/farrell.hpp>
 #include <gaden2/sensors/open_path.hpp>
 
@@ -37,9 +38,9 @@ PYBIND11_MODULE(pygaden2, m)
 
     /** ========================= ENVIRONMENT MODELS ========================= **/
 
-    pybind11::class_<gaden2::EnvironmentModel, gaden2::SimulationElement, std::shared_ptr<gaden2::EnvironmentModel>>(m, "EnvironmentModel");
+    pybind11::class_<gaden2::environment::EnvironmentModelBase, gaden2::SimulationElement, std::shared_ptr<gaden2::environment::EnvironmentModelBase>>(m, "EnvironmentModel");
 
-    pybind11::class_<gaden2::EnvironmentModelPlane, gaden2::EnvironmentModel, std::shared_ptr<gaden2::EnvironmentModelPlane>>(m, "EnvironmentModelPlane")
+    pybind11::class_<gaden2::environment::Plane, gaden2::environment::EnvironmentModelBase, std::shared_ptr<gaden2::environment::Plane>>(m, "EnvironmentModelPlane")
             .def(pybind11::init<
                     double, // x_min
                     double, // x_max
@@ -47,11 +48,11 @@ PYBIND11_MODULE(pygaden2, m)
                     double, // y_max
                     double  // z_max
                  >(),
-                 pybind11::arg("x_min") = gaden2::EnvironmentModelPlane::DEFAULT_X_MIN,
-                 pybind11::arg("x_max") = gaden2::EnvironmentModelPlane::DEFAULT_X_MAX,
-                 pybind11::arg("y_min") = gaden2::EnvironmentModelPlane::DEFAULT_Y_MIN,
-                 pybind11::arg("y_max") = gaden2::EnvironmentModelPlane::DEFAULT_Y_MAX,
-                 pybind11::arg("z_max") = gaden2::EnvironmentModelPlane::DEFAULT_Z_MAX)
+                 pybind11::arg("x_min") = gaden2::environment::Plane::DEFAULT_X_MIN,
+                 pybind11::arg("x_max") = gaden2::environment::Plane::DEFAULT_X_MAX,
+                 pybind11::arg("y_min") = gaden2::environment::Plane::DEFAULT_Y_MIN,
+                 pybind11::arg("y_max") = gaden2::environment::Plane::DEFAULT_Y_MAX,
+                 pybind11::arg("z_max") = gaden2::environment::Plane::DEFAULT_Z_MAX)
             .def(pybind11::init<const std::string &>(),
                  pybind11::arg("file"));
 
@@ -61,7 +62,7 @@ PYBIND11_MODULE(pygaden2, m)
 
     pybind11::class_<gaden2::wind_model::Farrell, gaden2::wind_model::WindModelBase, std::shared_ptr<gaden2::wind_model::Farrell>>(m, "FarrellsWindModel")
             .def(pybind11::init<
-                    const std::shared_ptr<gaden2::EnvironmentModel> &,
+                    const std::shared_ptr<gaden2::environment::EnvironmentModelBase> &,
                     double, // grid_cell_size
                     double, // u0
                     double, // v0
@@ -117,7 +118,7 @@ PYBIND11_MODULE(pygaden2, m)
 
     pybind11::class_<gaden2::FilamentGasModel, gaden2::GasDispersionModel, std::shared_ptr<gaden2::FilamentGasModel>>(m, "FilamentModel")
             .def(pybind11::init<
-                    std::shared_ptr<gaden2::EnvironmentModel>,
+                    std::shared_ptr<gaden2::environment::EnvironmentModelBase>,
                     std::shared_ptr<gaden2::wind_model::WindModelBase>,
                     std::vector<std::shared_ptr<gaden2::GasSourceFilamentModel>>, // gas_sources
                     double, // filament_noise_std
@@ -162,7 +163,7 @@ PYBIND11_MODULE(pygaden2, m)
     pybind11::class_<gaden2::rviz::EnvironmentVisualisationPlane>(m, "RvizEnvironmentVisualisationPlane")
             .def(pybind11::init<
                     std::shared_ptr<gaden2::rviz::VisualisationBase>,
-                    std::shared_ptr<gaden2::EnvironmentModelPlane>,
+                    std::shared_ptr<gaden2::environment::Plane>,
                     //const std::string &,    // topic name
                     int,                    // publication_interval, [ms], special values: 0 = do not publish, -1 = publish once on creation
                     const std::string &,    // marker_namespace

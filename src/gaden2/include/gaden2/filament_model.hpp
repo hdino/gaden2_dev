@@ -13,12 +13,15 @@
 
 namespace gaden2 {
 
-class EnvironmentModel;
-class GasSourceFilamentModel;
+namespace environment {
+class EnvironmentModelBase;
+} // namespace environment
 
 namespace wind_model {
 class WindModelBase;
 } // namespace wind_model
+
+class GasSourceFilamentModel;
 
 class FilamentGasModel : public GasDispersionModel
 {
@@ -31,7 +34,7 @@ public:
         return std::make_shared<gases::Air>();
     }
 
-    FilamentGasModel(std::shared_ptr<EnvironmentModel> environment_model,
+    FilamentGasModel(std::shared_ptr<environment::EnvironmentModelBase> environment_model,
                      std::shared_ptr<wind_model::WindModelBase> wind_model,
                      std::vector<std::shared_ptr<GasSourceFilamentModel>> gas_sources,
                      double filament_noise_std = DEFAULT_FILAMENT_NOISE_STD, // [m], sigma of the white noise added to the filament's position on each iteration
@@ -56,7 +59,7 @@ private:
     UpdatePositionResult updateFilamentPosition(Filament &filament, double time_step);
     UpdatePositionResult testAndSetPosition(Eigen::Vector3d &position, const Eigen::Vector3d &candidate);
 
-    std::shared_ptr<EnvironmentModel> environment_model_;
+    std::shared_ptr<environment::EnvironmentModelBase> environment_model_;
     std::shared_ptr<wind_model::WindModelBase> wind_model_;
     std::vector<std::shared_ptr<GasSourceFilamentModel>> gas_sources_;
 

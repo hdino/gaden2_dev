@@ -1,16 +1,16 @@
-#ifndef GADEN2_ENVIRONMENT_MODEL_PLANE_HPP_INCLUDED
-#define GADEN2_ENVIRONMENT_MODEL_PLANE_HPP_INCLUDED
+#ifndef GADEN2_ENVIRONMENT_MODELS_PLANE_HPP_INCLUDED
+#define GADEN2_ENVIRONMENT_MODELS_PLANE_HPP_INCLUDED
 
-#include "environment_model.hpp"
-#include "logger.hpp"
+#include "environment_model_base.hpp"
+#include <gaden2/logger.hpp>
 
 #include <Eigen/Core>
 
 #include <string>
 
-namespace gaden2 {
+namespace gaden2::environment {
 
-class EnvironmentModelPlane : public EnvironmentModel
+class Plane : public EnvironmentModelBase
 {
 public:
     static constexpr double DEFAULT_X_MIN = -50.0;
@@ -19,17 +19,17 @@ public:
     static constexpr double DEFAULT_Y_MAX = 25.0;
     static constexpr double DEFAULT_Z_MAX = 50.0;
 
-    EnvironmentModelPlane(double x_min = DEFAULT_X_MIN,
-                          double x_max = DEFAULT_X_MAX,
-                          double y_min = DEFAULT_Y_MIN,
-                          double y_max = DEFAULT_Y_MAX,
-                          double z_max = DEFAULT_Z_MAX,
-                          rl::Logger parent_logger = getStandardLogger());
+    Plane(double x_min = DEFAULT_X_MIN,
+          double x_max = DEFAULT_X_MAX,
+          double y_min = DEFAULT_Y_MIN,
+          double y_max = DEFAULT_Y_MAX,
+          double z_max = DEFAULT_Z_MAX,
+          rl::Logger parent_logger = getStandardLogger());
 
-    EnvironmentModelPlane(const std::string &file,
-                          rl::Logger parent_logger = getStandardLogger());
+    Plane(const std::string &file,
+          rl::Logger parent_logger = getStandardLogger());
 
-    ~EnvironmentModelPlane();
+    ~Plane();
 
     void startRecord(const std::string &file);
     void stopRecord();
@@ -49,6 +49,6 @@ private:
     Eigen::Vector3d plane_max_; // [m]
 };
 
-} // namespace gaden2
+} // namespace gaden2::environment
 
-#endif // GADEN2_ENVIRONMENT_MODEL_PLANE_HPP_INCLUDED
+#endif // GADEN2_ENVIRONMENT_MODELS_PLANE_HPP_INCLUDED

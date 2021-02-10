@@ -12,7 +12,9 @@ class TimerBase;
 
 namespace gaden2 {
 
-class EnvironmentModelPlane;
+namespace environment {
+class Plane;
+} // namespace environment
 
 namespace rviz {
 
@@ -29,7 +31,7 @@ public:
     static constexpr char DEFAULT_MARKER_FRAME_ID[] = "map";
 
     EnvironmentVisualisationPlane(std::shared_ptr<VisualisationBase> visualisation_base,
-                                  std::shared_ptr<EnvironmentModelPlane> model,
+                                  std::shared_ptr<environment::Plane> model,
                                   //const std::string &topic_name = DEFAULT_TOPIC_NAME,
                                   int publication_interval = DEFAULT_PUBLICATION_INTERVAL, // [ms], special values: 0 = do not publish, -1 = publish once on creation
                                   const std::string &marker_namespace = DEFAULT_MARKER_NAMESPACE,

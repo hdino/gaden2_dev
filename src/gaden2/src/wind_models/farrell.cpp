@@ -2,7 +2,7 @@
 // Insect Robotics Group, University of Edinburgh
 // Available at: https://github.com/InsectRobotics/pompy
 
-#include <gaden2/environment_model.hpp>
+#include <gaden2/environment_models/environment_model_base.hpp>
 #include <gaden2/helpers/interpolation.hpp>
 #include <gaden2/wind_models/farrell.hpp>
 #include <gaden2/wind_models/farrell_noise.hpp>
@@ -23,7 +23,7 @@ std::string toString(const FarrellsWindModelConfiguration &config, size_t indent
            + newline + "Noise bandwidth: " + std::to_string(config.noise_bandwidth);
 }
 
-Farrell::Farrell(const std::shared_ptr<EnvironmentModel> &environment_model,
+Farrell::Farrell(const std::shared_ptr<environment::EnvironmentModelBase> &environment_model,
                  double grid_cell_size,
                  double u0, double v0,
                  double kx, double ky,
